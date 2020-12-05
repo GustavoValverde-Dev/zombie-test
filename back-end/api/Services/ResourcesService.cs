@@ -29,7 +29,7 @@ namespace api.Services
                         Descricao = x.Description,
                         Quantidade = x.Quantity,
                         Observacao = x.Observation,
-                        InseridoPor = "Gustavo",
+                        InseridoPor = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId)?.Name,
                         DataInsercao = x.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")
                     });
                 }
