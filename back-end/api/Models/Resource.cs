@@ -24,7 +24,12 @@ namespace api.Models
         [MinLength(1, ErrorMessage="A observação do recurso deve conter no mínimo 1 caracter")]
         [MaxLength(85, ErrorMessage="A observação do recurso deve conter no máximo 85 caracteres")]
         public string Observation { get; set; }
-        public int CreationUser { get; set; }
+
+        [Required]
+        public int CreationUserId { get; set; }
+        public virtual User creationUser { get; set; }
+
+        [Required]
         public DateTime CreationDate { get; set; }
     }
 }

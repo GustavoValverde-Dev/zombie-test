@@ -9,6 +9,11 @@ namespace api.Data
             : base(options)
         {}
 
-        public DbSet<Resource> Resources { get; set; } 
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Function> Functions { get; set; }
+        public DbSet<ResourceHist> ResourceHists { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; } 
     }
 }
