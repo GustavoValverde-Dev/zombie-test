@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import { Button, } from 'reactstrap'
 function Main() {
     return (
         <div>
-            <div class="row">
-                <div class="col-sm-12 btn btn-info">
+            <div className="row">
+                <div className="col-sm-12 btn btn-info">
                     Sistema para administração de recursos
+
+                    <button className="btn btn-danger">teste bootstrap</button>
                 </div>
             </div>
         </div>
