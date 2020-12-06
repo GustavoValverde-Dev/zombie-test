@@ -15,5 +15,6 @@ namespace api.Data
         public DbSet<Function> Functions { get; set; }
         public DbSet<ResourceHist> ResourceHists { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; } 
+        public DbSet<TokenLog> TokenLogs { get; set; } 
     }
 }
