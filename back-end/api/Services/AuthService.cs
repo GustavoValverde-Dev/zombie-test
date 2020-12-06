@@ -43,7 +43,7 @@ namespace api.Services
         {
             try
             {
-                var tokenActive = _context.TokenLogs.FirstOrDefault(x => x.Token == token && x.Active == true && DateTime.Now > x.ValidThru);
+                var tokenActive = _context.TokenLogs.FirstOrDefault(x => x.Token == token && x.Active == true && DateTime.Now < x.ValidThru);
 
                 if (tokenActive == null)
                 {
@@ -71,6 +71,15 @@ namespace api.Services
 
                 if (user != null)
                 {
+                    var checkTokenExistence = _context.TokenLogs.FirstOrDefault(x => x.UserId == user.Id);
+
+                    if (checkTokenExistence != null)
+                    {
+                        checkTokenExistence.Active = false;
+                        _context.TokenLogs.Update(checkTokenExistence);
+                        _context.SaveChanges();
+                    }
+
                     var token = MD5Hash(cpf + DateTime.Now.ToString());
 
                     TokenLog auth = new TokenLog

@@ -19,7 +19,7 @@ namespace api.Models
         public string CPF { get; set; }
 
         [MinLength(1, ErrorMessage="A senha do usuário deve conter no mínimo 1 caracter")]
-        [MaxLength(16, ErrorMessage="A senha do usuário deve conter no máximo 16 caracteres")]
+        [MaxLength(100, ErrorMessage="A senha do usuário deve conter no máximo 100 caracteres")]
         [Required(ErrorMessage="Senha obrigatória")]
         public string Password { get; set; }
 

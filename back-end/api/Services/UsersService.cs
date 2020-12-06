@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using api.Data;
 using api.Handlers;
+using api.Models;
 
 namespace api.Services
 {
@@ -56,6 +58,41 @@ namespace api.Services
             catch (System.Exception e)
             {
                 var errorMessage = e.InnerException;
+                throw;
+            }
+        }
+
+        public void InsertUser(UserAdd data)
+        {
+            try
+            {
+                User user = new User
+                {
+                    Name = data.Name,
+                    CPF = data.CPF,
+                    Password = data.Password,
+                    CreationDate = DateTime.Now
+                };
+
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                
+                foreach (var item in data.GroupsId)
+                {
+                    UserGroup group = new UserGroup
+                    {
+                        UserId = user.Id,
+                        GroupId = item,
+                        CreationDate = DateTime.Now
+                    };
+
+                    _context.UserGroups.Add(group);
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception)
+            {
+                
                 throw;
             }
         }

@@ -30,6 +30,9 @@ namespace api
             services.AddDbContext<DataContext>(options => 
             options.UseMySql(Configuration.GetConnectionString("myConnection")));
             services.AddControllers();
+
+            // Adicionando Swagger
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +48,16 @@ namespace api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Configuração Swagger.
+            app.UseSwagger();
+
+            // Ativar middleware do swagger-ui,
+            // Especificar o endpoint do Swagger.json.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zombie API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {

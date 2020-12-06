@@ -40,3 +40,8 @@ C:\projects\zombie-test\back-end\api\obj\Debug\netcoreapp3.1\staticwebassets\api
 C:\projects\zombie-test\back-end\api\obj\Debug\netcoreapp3.1\api.dll
 C:\projects\zombie-test\back-end\api\obj\Debug\netcoreapp3.1\api.pdb
 C:\projects\zombie-test\back-end\api\obj\Debug\netcoreapp3.1\api.genruntimeconfig.cache
+C:\projects\zombie-test\back-end\api\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\projects\zombie-test\back-end\api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\projects\zombie-test\back-end\api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\projects\zombie-test\back-end\api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\projects\zombie-test\back-end\api\obj\Debug\netcoreapp3.1\api.MvcApplicationPartsAssemblyInfo.cs
