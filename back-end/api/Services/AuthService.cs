@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -29,6 +30,66 @@ namespace api.Services
                 else
                 {
                     return true;
+                }
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        public User GetUserByToken(string token)
+        {
+            try
+            {
+                var tokenActive = _context.TokenLogs.FirstOrDefault(x => x.Token == token && x.Active == true && DateTime.Now > x.ValidThru);
+
+                if (tokenActive == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.Id == tokenActive.UserId);
+
+                    return user;
+                }
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        public string GenerateToken(string cpf)
+        {
+            try
+            {
+                var user = _context.Users.FirstOrDefault(x => x.CPF == cpf);
+
+                if (user != null)
+                {
+                    var token = MD5Hash(cpf + DateTime.Now.ToString());
+
+                    TokenLog auth = new TokenLog
+                    {
+                        Active = true,
+                        Token = token,
+                        UserId = user.Id,
+                        ValidThru = DateTime.Now.AddDays(3),
+                        CreationDate = DateTime.Now
+                    };
+
+                    _context.TokenLogs.Add(auth);
+                    _context.SaveChanges();
+
+                    return token;
+                }
+                else
+                {
+                    return null;
                 }
             }
             catch (System.Exception)
