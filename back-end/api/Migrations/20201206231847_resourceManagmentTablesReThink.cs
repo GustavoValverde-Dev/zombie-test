@@ -2,7 +2,7 @@
 
 namespace api.Migrations
 {
-    public partial class tokenAddMigration : Migration
+    public partial class resourceManagmentTablesReThink : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

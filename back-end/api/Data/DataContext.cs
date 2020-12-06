@@ -10,6 +10,10 @@ namespace api.Data
         {}
 
         public DbSet<Resource> Resources { get; set; }
+        public DbSet<ResourceType> ResourceTypes { get; set; }
+        public DbSet<ResourceEntry> ResourceEntries { get; set; }
+        public DbSet<ResourceDeparture> ResourceDepartures { get; set; }
+        public DbSet<ResourceStock> ResourceStocks { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Function> Functions { get; set; }

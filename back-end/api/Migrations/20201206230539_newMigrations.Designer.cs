@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201206190818_tokenAddMigration")]
-    partial class tokenAddMigration
+    [Migration("20201206230539_newMigrations")]
+    partial class newMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -89,21 +89,27 @@ namespace api.Migrations
                         .HasColumnType("varchar(85) CHARACTER SET utf8mb4")
                         .HasMaxLength(85);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
-                        .HasMaxLength(40);
+                    b.Property<int>("MaxQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinQuantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Observation")
                         .HasColumnType("varchar(85) CHARACTER SET utf8mb4")
                         .HasMaxLength(85);
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("ResourceTypeId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreationUserId");
+
+                    b.HasIndex("ResourceTypeId");
 
                     b.ToTable("Resources");
                 });
@@ -133,6 +139,60 @@ namespace api.Migrations
                     b.ToTable("ResourceHists");
                 });
 
+            modelBuilder.Entity("api.Models.ResourceType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CreationUserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(45) CHARACTER SET utf8mb4")
+                        .HasMaxLength(45);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreationUserID");
+
+                    b.ToTable("ResourceTypes");
+                });
+
+            modelBuilder.Entity("api.Models.TokenLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ValidThru")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TokenLogs");
+                });
+
             modelBuilder.Entity("api.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -154,8 +214,8 @@ namespace api.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("varchar(16) CHARACTER SET utf8mb4")
-                        .HasMaxLength(16);
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -217,9 +277,33 @@ namespace api.Migrations
                         .HasForeignKey("CreationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("api.Models.ResourceType", "resourceType")
+                        .WithMany()
+                        .HasForeignKey("ResourceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("api.Models.ResourceHist", b =>
+                {
+                    b.HasOne("api.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("api.Models.ResourceType", b =>
+                {
+                    b.HasOne("api.Models.User", "CreationUser")
+                        .WithMany()
+                        .HasForeignKey("CreationUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("api.Models.TokenLog", b =>
                 {
                     b.HasOne("api.Models.User", "user")
                         .WithMany()

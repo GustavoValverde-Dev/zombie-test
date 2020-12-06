@@ -25,9 +25,9 @@ namespace api.Services
                 foreach(var x in resources)
                 {
                     response.Add(new ResourceList{
-                        Nome = x.Name,
+                      //  Nome = x.Name,
                         Descricao = x.Description,
-                        Quantidade = x.Quantity,
+                 //       Quantidade = x.Quantity,
                         Observacao = x.Observation,
                         InseridoPor = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId)?.Name,
                         DataInsercao = x.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")
