@@ -53,7 +53,6 @@ namespace api.Services
                 {
                     ResourceTypeId = data.ResourceTypeId,
                     Description = data.Description,
-                    Status = data.Status,
                     MinQuantity = data.MinQuantity,
                     MaxQuantity = data.MaxQuantity,
                     Observation = data.Observation,
@@ -97,6 +96,8 @@ namespace api.Services
         {
             try
             {
+
+
                 ResourceDeparture resDeparture = new ResourceDeparture
                 {
                     ResourceId = data.ResourceId,
@@ -107,6 +108,76 @@ namespace api.Services
 
                 _context.ResourceDepartures.Add(resDeparture);
                 _context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        public bool ResourceDepartureCheck(ResourceMovimentation data)
+        {
+            try
+            {
+                Resource res = _context.Resources.FirstOrDefault(x => x.Id == data.ResourceId);
+                ResourceStock stock = _context.ResourceStocks.FirstOrDefault(x => x.ResourceId == data.ResourceId);
+                int newQuantityValue = stock.Quantity - data.Quantity;
+                if (newQuantityValue < res.MinQuantity)
+                {
+                    return false;
+                }
+                else if (newQuantityValue == res.MinQuantity)
+                {
+                    res.Status = false;
+                    _context.Resources.Update(res);
+                    _context.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        public bool ResourceEntryCheck(ResourceMovimentation data)
+        {
+            try
+            {
+                Resource res = _context.Resources.FirstOrDefault(x => x.Id == data.ResourceId);
+                ResourceStock stock = _context.ResourceStocks.FirstOrDefault(x => x.ResourceId == data.ResourceId);
+
+                if (stock != null)
+                {
+                    int newQuantityValue = stock.Quantity + data.Quantity;
+                    if (newQuantityValue > res.MaxQuantity)
+                    {
+                        return false;
+                    }
+                    else if (res.MinQuantity < newQuantityValue)
+                    {
+                        res.Status = true;
+                        _context.Resources.Update(res);
+                        _context.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
             }
             catch (System.Exception)
             {

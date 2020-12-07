@@ -77,9 +77,17 @@ namespace api.Controllers
 
                     if (authUser != null)
                     {
-                        new ResourcesService(_context).InsertResourceEntry(data, authUser.Id);
+                        bool entryCheck = new ResourcesService(_context).ResourceEntryCheck(data);
+                        if (entryCheck)
+                        {
+                            new ResourcesService(_context).InsertResourceEntry(data, authUser.Id);
                         
-                        return Ok("Entrada de recurso cadastrada com sucesso.");
+                            return Ok("Entrada de recurso cadastrada com sucesso.");
+                        }
+                        else
+                        {
+                            return BadRequest("Você não pode armazenar essa quantidade.");
+                        }
                     }
                     else
                     {
@@ -102,9 +110,17 @@ namespace api.Controllers
 
                     if (authUser != null)
                     {
-                        new ResourcesService(_context).InsertResourceDeparture(data, authUser.Id);
+                        bool departureCheck = new ResourcesService(_context).ResourceDepartureCheck(data);
+                        if (departureCheck)
+                        {
+                            new ResourcesService(_context).InsertResourceDeparture(data, authUser.Id);
                         
-                        return Ok("Saída de recurso cadastrada com sucesso.");
+                            return Ok("Saída de recurso cadastrada com sucesso.");
+                        }
+                        else
+                        {
+                            return BadRequest("Você não pode retirar essa quantidade!");
+                        }
                     }
                     else
                     {
