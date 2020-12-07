@@ -44,15 +44,10 @@ namespace api.Controllers
 
 
         [HttpPost("add")]
-        public IActionResult UserRegisterInsideSystem([FromHeader] string Token, [FromBody] UserAdd data)
+        public IActionResult UserRegisterInsideSystem([FromBody] UserAdd data)
         {
             try
             {
-                //Autênticação
-                User auth = new AuthService(_context).GetUserByToken(Token);
-
-                if (auth != null)
-                {
                     User verify = _context.Users.FirstOrDefault(x => x.CPF == data.CPF);
 
                     if (verify == null)
@@ -65,11 +60,6 @@ namespace api.Controllers
                     {
                         return BadRequest("Usuário já cadastrado.");
                     }
-                }
-                else
-                {
-                    return Unauthorized("Token inválido ou expirado.");
-                }
             }
             catch (System.Exception)
             {

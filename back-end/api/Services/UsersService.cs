@@ -77,18 +77,6 @@ namespace api.Services
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 
-                foreach (var item in data.GroupsId)
-                {
-                    UserGroup group = new UserGroup
-                    {
-                        UserId = user.Id,
-                        GroupId = item,
-                        CreationDate = DateTime.Now
-                    };
-
-                    _context.UserGroups.Add(group);
-                    _context.SaveChanges();
-                }
             }
             catch (System.Exception)
             {

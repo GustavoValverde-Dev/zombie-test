@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, withRouter } from "react-router-dom";
+import api from "../../services/api";
 import Logo from "../../assets/zombie-logo.jpg";
+import md5 from "md5";
 
 import { Form, Container } from "./styles";
 
@@ -13,9 +14,28 @@ class SignUp extends Component {
     error: ""
   };
 
-  handleSignUp = e => {
+  handleSignUp = async e => {
     e.preventDefault();
-    alert("Eu vou te registrar");
+    const { name, cpf, password } = this.state;
+    if (!name || !cpf || !password) {
+      this.setState({ error: "Preencha todos os dados para se cadastrar" });
+    } else {
+      try {
+        let md5Hash = md5(password);
+
+        let obj = {
+            Name: name,
+            CPF: cpf,
+            Password: md5Hash
+        }
+
+        await api.post("/users/add", obj);
+        alert(this.response.data);
+        this.props.history.push("/");
+      } catch (err) {
+        this.setState({ error: err.response.data });
+      }
+    }
   };
 
   render() {
@@ -49,4 +69,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);

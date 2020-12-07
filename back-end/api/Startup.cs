@@ -17,6 +17,7 @@ namespace api
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +31,17 @@ namespace api
             services.AddDbContext<DataContext>(options => 
             options.UseMySql(Configuration.GetConnectionString("myConnection")));
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
+            });
 
             // Adicionando Swagger
             services.AddSwaggerGen();
@@ -49,6 +61,7 @@ namespace api
 
             app.UseAuthorization();
 
+            app.UseCors(MyAllowSpecificOrigins);
             // Configuração Swagger.
             app.UseSwagger();
 
