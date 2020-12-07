@@ -92,5 +92,27 @@ namespace api.Services
                 throw;
             }
         }
+
+        public void InsertResourceDeparture(ResourceMovimentation data, int userId)
+        {
+            try
+            {
+                ResourceDeparture resDeparture = new ResourceDeparture
+                {
+                    ResourceId = data.ResourceId,
+                    Quantity = data.Quantity,
+                    CreationUserId = userId,
+                    DepartureDate = DateTime.Now
+                };
+
+                _context.ResourceDepartures.Add(resDeparture);
+                _context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

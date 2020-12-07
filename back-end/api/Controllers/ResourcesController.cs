@@ -92,5 +92,30 @@ namespace api.Controllers
                 throw;
             }
         }
+
+        [HttpPost("departure")]
+        public IActionResult ResourceDepartureInsert([FromHeader] string Token, [FromBody] ResourceMovimentation data)
+        {
+            try
+            {
+                    User authUser = new AuthService(_context).GetUserByToken(Token);
+
+                    if (authUser != null)
+                    {
+                        new ResourcesService(_context).InsertResourceDeparture(data, authUser.Id);
+                        
+                        return Ok("Saída de recurso cadastrada com sucesso.");
+                    }
+                    else
+                    {
+                        return Unauthorized("Token inválido.");
+                    }
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }
