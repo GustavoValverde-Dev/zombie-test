@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using api.Data;
 using api.Handlers;
+using api.Models;
 
 namespace api.Services
 {
@@ -39,6 +41,32 @@ namespace api.Services
             catch (System.Exception e)
             {
                 var errorMessage = e.InnerException;
+                throw;
+            }
+        }
+
+        public void InsertResource(ResourceAdd data, int userId)
+        {
+            try
+            {
+                Resource res = new Resource
+                {
+                    ResourceTypeId = data.ResourceTypeId,
+                    Description = data.Description,
+                    Status = data.Status,
+                    MinQuantity = data.MinQuantity,
+                    MaxQuantity = data.MaxQuantity,
+                    Observation = data.Observation,
+                    CreationUserId = userId,
+                    CreationDate = DateTime.Now
+                };
+
+                _context.Resources.Add(res);
+                _context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                
                 throw;
             }
         }

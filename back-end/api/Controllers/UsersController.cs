@@ -44,7 +44,7 @@ namespace api.Controllers
 
 
         [HttpPost("add")]
-        public IActionResult UserRegisterInsideSystem([FromBody] UserAdd data)
+        public IActionResult RegisterInsideSystem([FromBody] UserAdd data)
         {
             try
             {
