@@ -70,5 +70,27 @@ namespace api.Services
                 throw;
             }
         }
+
+        public void InsertResourceEntry(ResourceMovimentation data, int userId)
+        {
+            try
+            {
+                ResourceEntry resEntry = new ResourceEntry
+                {
+                    ResourceId = data.ResourceId,
+                    Quantity = data.Quantity,
+                    CreationUserId = userId,
+                    CreationDate = DateTime.Now
+                };
+
+                _context.ResourceEntries.Add(resEntry);
+                _context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }
