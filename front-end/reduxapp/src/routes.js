@@ -1,21 +1,30 @@
-//Importar as dependências
-import React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-//Importar as páginas
-import Main from '../src/components/views/main/Main';
-import Resources from '../src/components/views/resource/Resources';
+import { isAuthenticated } from "./components/redux/services/auth";
 
-//Criar o componentes com as rotas
-function Routes(){
-    return(
-        <BrowserRouter>
-            <Switch>
-                <Route path="/" exact component={Main} />
-                <Route path="/resources" component={Resources} />
-            </Switch>        
-        </BrowserRouter>
-    );
-};
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+      )
+    }
+  />
+);
+
+const Routes = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={() => <h1>Login</h1>} />
+      <Route path="/signup" component={() => <h1>Cadastro</h1>} />
+      <PrivateRoute path="/app" component={() => <h1>Home</h1>} />
+      <Route path="*" component={() => <h1>Page not found</h1>} />
+    </Switch>
+  </BrowserRouter>
+);
 
 export default Routes;
