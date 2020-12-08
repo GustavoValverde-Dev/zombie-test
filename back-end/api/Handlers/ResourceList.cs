@@ -1,12 +1,18 @@
+using System;
+
+
 namespace api.Handlers
 {
     public class ResourceList
     {
-        public string Nome { get; set; }
-        public string Descricao { get; set; }
-        public int Quantidade { get; set; }
-        public string Observacao { get; set; }
-        public string InseridoPor { get; set; }
-        public string DataInsercao { get; set; }
+        public string ResourceTypeName { get; set; }
+        public string Description { get; set; }
+        public bool Status { get; set; }
+        public int MinQuantity { get; set; }
+        public int MaxQuantity { get; set; }
+        public int Quantity { get; set; }
+        public string Observation { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

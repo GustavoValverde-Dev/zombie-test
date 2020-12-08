@@ -29,7 +29,7 @@ namespace api.Services
                     UserList user = new UserList();
 
                     user.Id = x.Id;
-                    user.Nome = x.Name;
+                    user.Name = x.Name;
                     user.CPF = x.CPF;
                     
                     var groups = _context.UserGroups.Where(y => y.UserId == x.Id).ToList();
@@ -48,7 +48,7 @@ namespace api.Services
                         groupsresult.Add(groupHandler);
                     }
 
-                    user.Grupo = groupsresult;
+                    user.Group = groupsresult;
 
                     response.Add(user);
                 }

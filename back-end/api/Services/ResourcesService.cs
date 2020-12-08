@@ -21,18 +21,21 @@ namespace api.Services
             try
             {
                 List<ResourceList> response = new List<ResourceList>();
-
-                var resources = _context.Resources.ToList();
+                List<ResourceType> resType = _context.ResourceTypes.ToList();
+                List<Resource> resources = _context.Resources.ToList();
 
                 foreach(var x in resources)
                 {
                     response.Add(new ResourceList{
-                      //  Nome = x.Name,
-                        Descricao = x.Description,
-                 //       Quantidade = x.Quantity,
-                        Observacao = x.Observation,
-                        InseridoPor = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId)?.Name,
-                        DataInsercao = x.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")
+                        ResourceTypeName = _context.ResourceTypes.FirstOrDefault(s => s.Id == x.ResourceTypeId).Description,
+                        Description = x.Description,
+                        Status = x.Status,
+                        MinQuantity = x.MinQuantity,
+                        MaxQuantity = x.MaxQuantity,
+                        Quantity = _context.ResourceStocks.FirstOrDefault(s => s.ResourceId == x.Id).Quantity,
+                        Observation = x.Observation,
+                        CreatedBy = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
+                        CreationDate = x.CreationDate
                     });
                 }
 
@@ -157,18 +160,18 @@ namespace api.Services
                 if (stock != null)
                 {
                     int newQuantityValue = stock.Quantity + data.Quantity;
-                    if (newQuantityValue > res.MaxQuantity)
-                    {
-                        return false;
-                    }
-                    else if (res.MinQuantity < newQuantityValue)
+
+                    if (stock.Quantity == res.MinQuantity)
                     {
                         res.Status = true;
                         _context.Resources.Update(res);
                         _context.SaveChanges();
-
-                        return true;
                     }
+
+                    if (newQuantityValue > res.MaxQuantity)
+                    {
+                        return false;
+                    }                    
                     else
                     {
                         return true;
@@ -176,6 +179,9 @@ namespace api.Services
                 }
                 else
                 {
+                    res.Status = true;
+                    _context.Resources.Update(res);
+                    _context.SaveChanges();
                     return true;
                 }
             }

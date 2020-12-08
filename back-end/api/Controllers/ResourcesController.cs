@@ -22,17 +22,26 @@ namespace api.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetResources()
+        public IActionResult GetResources([FromHeader] string Token)
         {
             try
             {
-               var resources = new ResourcesService(_context).GetResources();
-                
-                if (!resources.Any())
-                {
-                    return NotFound();
-                }
-               return Ok(resources); 
+                User authUser = new AuthService(_context).GetUserByToken(Token);
+
+                    if (authUser != null)
+                    {
+                        var resources = new ResourcesService(_context).GetResources();
+                        
+                        if (!resources.Any())
+                        {
+                            return BadRequest("Não há recursos.");
+                        }
+                        return Ok(resources); 
+                    }
+                    else
+                    {
+                        return Unauthorized("Token inválido.");
+                    }
             }
             catch (System.Exception)
             {
