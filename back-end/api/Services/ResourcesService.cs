@@ -32,14 +32,68 @@ namespace api.Services
                         Status = x.Status,
                         MinQuantity = x.MinQuantity,
                         MaxQuantity = x.MaxQuantity,
-                        Quantity = _context.ResourceStocks.FirstOrDefault(s => s.ResourceId == x.Id).Quantity,
+                        Quantity = _context.ResourceStocks.FirstOrDefault(s => s.ResourceId == x.Id)?.Quantity ?? 0,
                         Observation = x.Observation,
                         CreatedBy = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
                         CreationDate = x.CreationDate
                     });
                 }
 
-                return response;
+                return response.OrderBy(x => x.Status).ThenBy(x => x.Description).ToList();
+            }
+            catch (System.Exception e)
+            {
+                var errorMessage = e.InnerException;
+                throw;
+            }
+        }
+
+        public List<ResourceMovimentationList> GetResourceEntries()
+        {
+            try
+            {
+                List<ResourceMovimentationList> response = new List<ResourceMovimentationList>();
+                List<ResourceEntry> resEntries = _context.ResourceEntries.ToList();
+                List<Resource> resources = _context.Resources.ToList();
+
+                foreach(var x in resEntries)
+                {
+                    response.Add(new ResourceMovimentationList{
+                        Resource = resources.FirstOrDefault(s => s.Id == x.ResourceId).Description,
+                        Quantity = x.Quantity,
+                        User = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
+                        Date = x.CreationDate
+                    });
+                }
+
+                return response.OrderBy(x => x.Date).ToList();
+            }
+            catch (System.Exception e)
+            {
+                var errorMessage = e.InnerException;
+                throw;
+            }
+        }
+
+        public List<ResourceMovimentationList> GetResourceDepartures()
+        {
+            try
+            {
+                List<ResourceMovimentationList> response = new List<ResourceMovimentationList>();
+                List<ResourceDeparture> resDepartures = _context.ResourceDepartures.ToList();
+                List<Resource> resources = _context.Resources.ToList();
+
+                foreach(var x in resDepartures)
+                {
+                    response.Add(new ResourceMovimentationList{
+                        Resource = resources.FirstOrDefault(s => s.Id == x.ResourceId).Description,
+                        Quantity = x.Quantity,
+                        User = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
+                        Date = x.DepartureDate
+                    });
+                }
+
+                return response.OrderBy(x => x.Date).ToList();
             }
             catch (System.Exception e)
             {

@@ -51,6 +51,66 @@ namespace api.Controllers
             
         }
 
+        [HttpGet("getentries")]
+        public IActionResult GetResourceEntries([FromHeader] string Token)
+        {
+            try
+            {
+                User authUser = new AuthService(_context).GetUserByToken(Token);
+
+                    if (authUser != null)
+                    {
+                        var resourceEntries = new ResourcesService(_context).GetResourceEntries();
+                        
+                        if (!resourceEntries.Any())
+                        {
+                            return BadRequest("Não há entradas de recursos.");
+                        }
+                        return Ok(resourceEntries); 
+                    }
+                    else
+                    {
+                        return Unauthorized("Token inválido.");
+                    }
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+            
+        }
+
+        [HttpGet("getdepartures")]
+        public IActionResult GetResourceDepartures([FromHeader] string Token)
+        {
+            try
+            {
+                User authUser = new AuthService(_context).GetUserByToken(Token);
+
+                    if (authUser != null)
+                    {
+                        var resourceDepartures = new ResourcesService(_context).GetResourceDepartures();
+                        
+                        if (!resourceDepartures.Any())
+                        {
+                            return BadRequest("Não há saídas de recursos.");
+                        }
+                        return Ok(resourceDepartures); 
+                    }
+                    else
+                    {
+                        return Unauthorized("Token inválido.");
+                    }
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+            
+        }
+
 
         [HttpPost("add")]
         public IActionResult ResourceInsert([FromHeader] string Token, [FromBody] ResourceAdd data)
