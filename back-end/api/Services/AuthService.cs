@@ -71,7 +71,7 @@ namespace api.Services
 
                 if (user != null)
                 {
-                    var checkTokenExistence = _context.TokenLogs.FirstOrDefault(x => x.UserId == user.Id);
+                    var checkTokenExistence = _context.TokenLogs.FirstOrDefault(x => x.UserId == user.Id && x.Active == true);
 
                     if (checkTokenExistence != null)
                     {
