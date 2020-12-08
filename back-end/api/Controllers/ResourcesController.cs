@@ -111,7 +111,7 @@ namespace api.Controllers
             
         }
 
-
+        
         [HttpPost("add")]
         public IActionResult ResourceInsert([FromHeader] string Token, [FromBody] ResourceAdd data)
         {

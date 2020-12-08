@@ -29,7 +29,7 @@ namespace api.Services
                     response.Add(new ResourceList{
                         ResourceTypeName = _context.ResourceTypes.FirstOrDefault(s => s.Id == x.ResourceTypeId).Description,
                         Description = x.Description,
-                        Status = x.Status,
+                        Status = x.Status == true ? "Disponível" : "Indisponível",
                         MinQuantity = x.MinQuantity,
                         MaxQuantity = x.MaxQuantity,
                         Quantity = _context.ResourceStocks.FirstOrDefault(s => s.ResourceId == x.Id)?.Quantity ?? 0,

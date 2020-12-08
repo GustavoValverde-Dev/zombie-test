@@ -7,7 +7,7 @@ namespace api.Handlers
     {
         public string ResourceTypeName { get; set; }
         public string Description { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
         public int MinQuantity { get; set; }
         public int MaxQuantity { get; set; }
         public int Quantity { get; set; }
