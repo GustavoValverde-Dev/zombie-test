@@ -26,7 +26,7 @@ namespace api.Controllers
         {
             try
             {
-                User authUser = new AuthService(_context).GetUserByToken(Token);
+                UserDataHandler authUser = new AuthService(_context).GetUserByToken(Token);
 
                     if (authUser != null)
                     {
@@ -56,7 +56,7 @@ namespace api.Controllers
         {
             try
             {
-                User authUser = new AuthService(_context).GetUserByToken(Token);
+                UserDataHandler authUser = new AuthService(_context).GetUserByToken(Token);
 
                     if (authUser != null)
                     {
@@ -86,7 +86,7 @@ namespace api.Controllers
         {
             try
             {
-                User authUser = new AuthService(_context).GetUserByToken(Token);
+                UserDataHandler authUser = new AuthService(_context).GetUserByToken(Token);
 
                     if (authUser != null)
                     {
@@ -117,7 +117,7 @@ namespace api.Controllers
         {
             try
             {
-                    User authUser = new AuthService(_context).GetUserByToken(Token);
+                    UserDataHandler authUser = new AuthService(_context).GetUserByToken(Token);
 
                     if (authUser != null)
                     {
@@ -142,7 +142,7 @@ namespace api.Controllers
         {
             try
             {
-                    User authUser = new AuthService(_context).GetUserByToken(Token);
+                    UserDataHandler authUser = new AuthService(_context).GetUserByToken(Token);
 
                     if (authUser != null)
                     {
@@ -175,7 +175,7 @@ namespace api.Controllers
         {
             try
             {
-                    User authUser = new AuthService(_context).GetUserByToken(Token);
+                    UserDataHandler authUser = new AuthService(_context).GetUserByToken(Token);
 
                     if (authUser != null)
                     {

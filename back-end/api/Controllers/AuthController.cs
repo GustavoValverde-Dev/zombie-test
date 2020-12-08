@@ -30,7 +30,7 @@ namespace api.Controllers
 
                     if (token != null)
                     {
-                        User userData = new AuthService(_context).GetUserByToken(token);
+                        UserDataHandler userData = new AuthService(_context).GetUserByToken(token);
 
                         return Ok(userData);
                     }

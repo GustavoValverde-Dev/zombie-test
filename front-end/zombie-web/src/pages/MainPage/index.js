@@ -13,7 +13,8 @@ class MainPage extends Component {
   };
 
   componentDidMount(){
-    const token = getToken; 
+    var token = getToken(); 
+    console.log(token);
     api.get( '/resources/getall', { headers: { Token: token } })
      .then(response => {
          // If request is good...

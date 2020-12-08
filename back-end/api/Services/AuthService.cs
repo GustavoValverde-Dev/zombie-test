@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -39,7 +40,7 @@ namespace api.Services
             }
         }
 
-        public User GetUserByToken(string token)
+        public UserDataHandler GetUserByToken(string token)
         {
             try
             {
@@ -53,7 +54,32 @@ namespace api.Services
                 {
                     var user = _context.Users.FirstOrDefault(x => x.Id == tokenActive.UserId);
 
-                    return user;
+                    var groups = _context.UserGroups.Where(y => y.UserId == user.Id).ToList();
+
+                    List<GroupUserList> groupsresult = new List<GroupUserList>();
+
+                    foreach(var g in groups)
+                    {
+                        var group = _context.Groups.FirstOrDefault(gr => gr.Id == g.GroupId);
+                        GroupUserList groupHandler = new GroupUserList();
+                        groupHandler.Id = g.Id;
+                        groupHandler.Descricao = group.Description;
+                        groupHandler.Funcao = _context.Functions.FirstOrDefault(y => y.Id == group.FunctionId)?.Description;
+                        groupHandler.Inserido = g.CreationDate;
+
+                        groupsresult.Add(groupHandler);
+                    }
+
+                    UserDataHandler response = new UserDataHandler
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        CPF = user.CPF,
+                        Group = groupsresult,
+                        Token = token
+                    };
+
+                    return response;
                 }
             }
             catch (System.Exception)
