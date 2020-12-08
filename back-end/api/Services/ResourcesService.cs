@@ -35,7 +35,7 @@ namespace api.Services
                         Quantity = _context.ResourceStocks.FirstOrDefault(s => s.ResourceId == x.Id)?.Quantity ?? 0,
                         Observation = x.Observation,
                         CreatedBy = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
-                        CreationDate = x.CreationDate
+                        CreationDate = x.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")
                     });
                 }
 
@@ -62,7 +62,7 @@ namespace api.Services
                         Resource = resources.FirstOrDefault(s => s.Id == x.ResourceId).Description,
                         Quantity = x.Quantity,
                         User = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
-                        Date = x.CreationDate
+                        Date = x.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")
                     });
                 }
 
@@ -89,7 +89,7 @@ namespace api.Services
                         Resource = resources.FirstOrDefault(s => s.Id == x.ResourceId).Description,
                         Quantity = x.Quantity,
                         User = _context.Users.FirstOrDefault(y => y.Id == x.CreationUserId).Name,
-                        Date = x.DepartureDate
+                        Date = x.DepartureDate.ToString("dd/MM/yyyy HH:mm:ss")
                     });
                 }
 

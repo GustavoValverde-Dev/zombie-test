@@ -7,6 +7,6 @@ namespace api.Handlers
         public string User { get; set; }
         public string Resource { get; set; }
         public int Quantity { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }

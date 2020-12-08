@@ -1,49 +1,113 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-
-import Logo from "../../assets/zombie-logo.jpg";
+import DataTable from "react-data-table-component";
 import api from "../../services/api";
 import { getToken } from "../../services/auth";
+import { Button } from "styled-button-component";
+import { Navbar, NavbarLink } from "styled-navbar-component";
+import { Nav } from "styled-nav-component";
 
-import { Form, Container } from "./styles";
+import { Container } from "./styles";
 
 class MainPage extends Component {
   state = {
-    
+    resourceData: []
   };
+   columns = [
+    {
+        name: "Tipo",
+        selector: "resourceTypeName"
+    },
+    {
+        name: "Descrição",
+        selector: "description"
+    },
+    {
+        name: "Status",
+        selector: "status"
+    },
+    {
+        name: "Quantidade",
+        selector: "quantity"
+    },
+    {
+        name: "Quantidade Mínima",
+        selector: "minQuantity"
+    },
+    {
+        name: "Quantidade Máxima",
+        selector: "maxQuantity"
+    },
+    {
+        name: "Observação",
+        selector: "observation"
+    },
+    {
+        name: "Inserido por",
+        selector: "createdBy"
+    },
+    {
+        name: "Data de criação",
+        selector: "creationDate"
+    }
+]
+  
 
   componentDidMount(){
+    
+
+
     var token = getToken(); 
     console.log(token);
     api.get( '/resources/getall', { headers: { Token: token } })
      .then(response => {
-         // If request is good...
          console.log(response.data);
+        this.setState({resourceData: response.data})
       })
      .catch((error) => {
          console.log('error ' + error);
       });
   }
+  
 
   render() {
     return (
+        
       <Container>
-        <Form>
-          <img style={{width: 15 + 'rem'}} src={Logo} alt="Zombie logo" />
-          {this.state.error && <p>{this.state.error}</p>}
-          <input
-            type="text"
-            maxLength="11"
-            placeholder="CPF"
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-          />
-          <button type="submit">Entrar</button>
-          <hr />
-          <Link to="/signup">Criar conta</Link>
-        </Form>
+            <Navbar expandSm dark>
+                <Nav start>
+                    <Link to='/app'>
+                    <NavbarLink dark brand active >Recursos</NavbarLink>
+                    </Link>
+                    <Link to='/app'>
+                    <NavbarLink dark brand >Usuários</NavbarLink>
+                    </Link>
+                    <Link to='/app'>
+                    <NavbarLink dark brand >Grupos</NavbarLink>
+                    </Link>
+                    <Link to='/app'>
+                    <NavbarLink dark brand >Funções</NavbarLink>
+                    </Link>
+                    <Nav end>
+                    <Button
+                        dark
+                        outline
+                        toggleCollapse
+                        expandSm
+                    >
+                        <span>&#9776;</span>
+                    </Button>
+                    </Nav>
+                </Nav>
+            </Navbar>
+        <div style={{marginTop: 8 + 'rem'}}> 
+        <DataTable
+            title="Recursos"
+            columns={this.columns}
+            data={this.state.resourceData}
+            theme="dark"
+        />
+        </div>
       </Container>
     );
   }

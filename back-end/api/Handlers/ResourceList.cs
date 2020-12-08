@@ -13,6 +13,6 @@ namespace api.Handlers
         public int Quantity { get; set; }
         public string Observation { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }
